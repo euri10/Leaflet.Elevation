@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+<link href='./lib/graph.css' rel='stylesheet' type='text/css'>
+<script src="http://d3js.org/d3.v3.js"></script>
+
+<script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+<script type="text/javascript" src="./lib/leaflet-gpx/gpx.js"></script>
+<body>
+
+<svg id="graph"></svg>
+
+<script>
+    var margin = 40,
+            width = 1200 - margin*2,
+            height = 600 - margin*2;
+    var xScale = d3.scale.linear()
+            .range([0, width])
+            .nice();
+    var yScale = d3.scale.linear()
+            .range([height, 0])
+            .nice();
+    var xAxis = d3.svg.axis()
+            .scale(xScale)
+            .orient("bottom");
+    var yAxis = d3.svg.axis()
+            .scale(yScale)
+            .orient("left");
+    var line = d3.svg.line()
+            .x(function(d) { return xScale(d.distance); })
+            .y(function(d) { return yScale(d.elevation); });
+    var graph = d3.select("#graph")
+            .attr("width", width + margin*2)
+            .attr("height", height + margin*2)
+            .append("g")
+            .attr("transform", "translate(" + margin + "," + margin + ")");
+
+    var g=new L.GPX("./demo.gpx", {
+        async: true,
+        marker_options: {
+            startIconUrl: './lib/leaflet-gpx/pin-icon-start.png',
+            endIconUrl: './lib/leaflet-gpx/pin-icon-end.png',
+            shadowUrl: './lib/leaflet-gpx/pin-shadow.png'
+        }
+    });
+
+
+
+    g.on('loaded', function(e) {
+        console.log(g._info.elevation.gain);
+        console.log(g._info.elevation._points);
+        var data=g._info.elevation._points;
+        data.forEach(function(d) {
+            d.distance = d[0];
+            d.elevation= d[1];
+        });
+        xScale.domain(d3.extent(data, function(d) { return d.distance; }));
+        yScale.domain(d3.extent(data, function(d) { return d.elevation; }));
+        graph.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+        graph.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+                .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("Elevation");
+        graph.append("path")
+                .datum(data)
+                .attr("class", "line")
+                .attr("d", line);
+    });
+
+
+
+</script>
