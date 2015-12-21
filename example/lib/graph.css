@@ -1,11 +1,3 @@
-body {
-    font-family: 'PT Sans', sans-serif;
-    font-size: 12px;
-    background-color: #fefefe;
-    height: 100%;
-    margin: 0;
-    overflow: hidden;
-}
 
 .axis path,
 .axis line {
@@ -27,5 +19,4 @@ body {
 #graph {
     width: 100%;
     height: 100%;
-    position: absolute;
 }

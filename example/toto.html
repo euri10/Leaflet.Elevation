@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
 <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
 <link href='./lib/graph.css' rel='stylesheet' type='text/css'>
 <script src="http://d3js.org/d3.v3.js"></script>
@@ -7,8 +12,19 @@
 <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
 <script type="text/javascript" src="./lib/leaflet-gpx/gpx.js"></script>
 <body>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">Panel Heading</div>
+        <div class="panel-body">
+            <div id="map"></div>
+            <svg id="graph"></svg>
+        </div>
+        <div class="panel-footer">Panel Footer</div>
+    </div>
+</div>
 
-<svg id="graph"></svg>
+
+
 
 <script>
     var margin = 40,
